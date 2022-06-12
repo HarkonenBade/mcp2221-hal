@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 embedded-hal = "*"
 hidapi = "*"
+packed_struct = "*"

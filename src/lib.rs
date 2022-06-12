@@ -1,4 +1,5 @@
 pub mod gpio;
+mod hid_messages;
 
 use hidapi::{HidApi, HidDevice, HidResult};
 
