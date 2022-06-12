@@ -1,7 +1,11 @@
+pub mod gpio;
+
 use hidapi::{HidApi, HidDevice, HidResult};
 
+use gpio::{GP0};
+
 pub struct MCP2221 {
-    dev: HidDevice,    
+    dev: HidDevice,
 }
 
 
@@ -17,20 +21,38 @@ impl MCP2221 {
             Err(e) => {
                 eprintln!("Error: {}", e);
                 panic!();
-            },
+            }
         };
 
-        return MCP2221 {dev};
+        return MCP2221 { dev };
     }
 
-    pub fn device_info(&self) -> HidResult<()> { 
-        println!("Manufacturer: {}", self.dev.get_manufacturer_string()?.as_deref().unwrap_or("Unset"));
-        println!("Product: {}", self.dev.get_product_string()?.as_deref().unwrap_or("Unset"));
-        println!("Serial: {}", self.dev.get_serial_number_string()?.as_deref().unwrap_or("Unset"));
+    pub fn device_info(&self) -> HidResult<()> {
+        println!(
+            "Manufacturer: {}",
+            self.dev
+                .get_manufacturer_string()?
+                .as_deref()
+                .unwrap_or("Unset")
+        );
+        println!(
+            "Product: {}",
+            self.dev.get_product_string()?.as_deref().unwrap_or("Unset")
+        );
+        println!(
+            "Serial: {}",
+            self.dev
+                .get_serial_number_string()?
+                .as_deref()
+                .unwrap_or("Unset")
+        );
         return Ok(());
     }
-}
 
+    pub fn gp0(&self) -> GP0 {
+        return GP0 { dev: &self.dev };
+    }
+}
 
 #[cfg(test)]
 mod tests {
